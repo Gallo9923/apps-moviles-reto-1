@@ -7,4 +7,18 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="INSTAGRAM_BLUE">#0095F6</color>
+    <color name="INSTAGRAM_BLUE_OPAQUE">#B2DFFC</color>
+
+
+    <color name="INSTAGRAM_PURPLE_BLUE">#5851DB</color>
+    <color name="INSTAGRAM_PURPLE">#833AB4</color>
+    <color name="INSTAGRAM_PURPLE_RED">#C13584</color>
+    <color name="INSTAGRAM_ROSE">#E1306C</color>
+    <color name="INSTAGRAM_BRIGHT_RED">#FD1D1D</color>
+    <color name="INSTAGRAM_RED_ORANGE">#F56040</color>
+    <color name="INSTAGRAM_ORANGE">#F77737</color>
+    <color name="INSTAGRAM_ORANGE_YELLOW">#FCAF45</color>
+    <color name="INSTAGRAM_YELLOW">#FFDC80</color>
 </resources>

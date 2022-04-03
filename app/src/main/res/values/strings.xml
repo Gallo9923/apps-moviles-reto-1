@@ -3,4 +3,5 @@
     <string name="login_username">Username</string>
     <string name="login_password">Password</string>
     <string name="login_button">Log in</string>
+    <string name="instagram_logo">Instagram logo</string>
 </resources>
