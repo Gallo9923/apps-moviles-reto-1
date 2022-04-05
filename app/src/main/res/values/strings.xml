@@ -14,4 +14,7 @@
     <string name="profile_photo">Profile photo</string>
     <string name="accept_changes">Accept changes</string>
     <string name="post">Post</string>
+    <string name="new_post">New Post</string>
+    <string name="write_caption">Write a caption...</string>
+    <string name="add_location">Add location</string>
 </resources>
