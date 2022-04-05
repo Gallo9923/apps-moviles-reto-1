@@ -17,4 +17,6 @@
     <string name="new_post">New Post</string>
     <string name="write_caption">Write a caption...</string>
     <string name="add_location">Add location</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
 </resources>
