@@ -30,4 +30,10 @@
     <style name="PhotoStyle" parent="Widget.AppCompat.ImageButton">
         <item name="android:background">@drawable/photo_background</item>
     </style>
+
+    <style name="FormCheck" parent="Widget.AppCompat.ImageButton">
+        <item name="android:background">@color/white</item>
+        <item name="android:tint">@color/INSTAGRAM_BLUE</item>
+    </style>
+
 </resources>
