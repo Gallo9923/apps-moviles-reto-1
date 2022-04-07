@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/logOutBtn"
             style="@style/AppButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

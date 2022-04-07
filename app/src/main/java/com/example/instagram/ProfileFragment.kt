@@ -21,6 +21,13 @@ class ProfileFragment : Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        binding.logOutBtn.setOnClickListener {
+            CurrentUser.logOut()
+
+            activity?.finish()
+
+        }
+
         // Inflate the layout for this fragment
         return view
     }
