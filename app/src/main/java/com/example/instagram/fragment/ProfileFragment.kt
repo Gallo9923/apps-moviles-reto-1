@@ -1,12 +1,12 @@
-package com.example.instagram
+package com.example.instagram.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.instagram.databinding.FragmentHomeBinding
 import com.example.instagram.databinding.FragmentProfileBinding
+import com.example.instagram.model.CurrentUser
 
 class ProfileFragment : Fragment() {
 
@@ -23,8 +23,14 @@ class ProfileFragment : Fragment() {
 
         binding.logOutBtn.setOnClickListener {
             CurrentUser.logOut()
-
             activity?.finish()
+
+        }
+
+        val currentName = CurrentUser.user?.username
+        binding.name.setText(currentName)
+
+        binding.confirmBtn.setOnClickListener {
 
         }
 

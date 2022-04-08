@@ -19,4 +19,6 @@
     <string name="add_location">Add location</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
+    <string name="incorrect_login">Incorrect credentials</string>
+    <string name="incorrect_login_txt">The username or password you entered is incorrect. Please try again.</string>
 </resources>

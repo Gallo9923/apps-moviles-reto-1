@@ -1,22 +1,32 @@
-package com.example.instagram
+package com.example.instagram.fragment
 
 import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.core.content.FileProvider
+import androidx.fragment.app.Fragment
 import com.example.instagram.databinding.FragmentPublishBinding
+import com.example.instagram.model.CurrentUser
+import com.example.instagram.model.Post
+import com.example.instagram.model.User
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.util.*
+
 
 class PublishFragment : Fragment() {
 
@@ -51,11 +61,77 @@ class PublishFragment : Fragment() {
             galleryLauncher.launch(intent)
         }
 
-        // Inflate the layout for this fragment
+        binding.publishBtn.setOnClickListener {
+            val date = Date()
+
+            val filename = getFilename(date)
+            uploadImageToStorage(filename, date)
+
+        }
+
         return view
     }
 
-    fun onCameraResult(result: ActivityResult){
+    private fun getFilename(date: Date): String {
+        val user = CurrentUser.user
+        return "${user?.username}_${date.time}"
+    }
+
+    private fun uploadImageToStorage(filename: String, date: Date){
+
+        val storage = FirebaseStorage.getInstance("gs://apps-moviles-reto1.appspot.com")
+        var storageRef = storage.reference
+
+        val path = "images/${filename}.jpg"
+        //var imagesRef: StorageReference? = storageRef.child("images")
+        var imageRef = storageRef.child(path)
+
+        val imageView = binding.image
+        imageView.isDrawingCacheEnabled = true
+        imageView.buildDrawingCache()
+        val bitmap = (imageView.drawable as BitmapDrawable).bitmap
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data = baos.toByteArray()
+
+        var uploadTask = imageRef.putBytes(data)
+
+        Log.e(">>>", "Image upload started")
+
+        uploadTask.addOnFailureListener {
+            Log.e(">>>", "Failed image upload")
+            Log.e(">>>", it.toString())
+        }.addOnSuccessListener {
+            // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
+            // ...
+            Log.e(">>>", "Successfull image upload")
+            createPost(path, date)
+
+        }
+    }
+
+    private fun createPost(url: String, date: Date){
+        val postId = UUID.randomUUID().toString()
+        val user = CurrentUser.user
+        val username = user?.username!!
+        val caption = binding.captionTxt.text.toString()
+        val location = binding.locationTxt.text.toString()
+        val post = Post(postId, username, date, url, caption, location)
+
+        uploadPost(post)
+
+    }
+
+    private fun uploadPost(post: Post){
+        Firebase.firestore
+            .collection("post")
+            .document(post.postId!!)
+            .set(post)
+            .addOnSuccessListener { Log.e(">>>", "DocumentSnapshot successfully written!") }
+            .addOnFailureListener { e -> Log.e(">>>", "Error writing document", e) }
+    }
+
+    private fun onCameraResult(result: ActivityResult){
         // Thumbnail
         //  val bitmap = result.data?.extras?.get("data") as Bitmap
         //  binding.image.setImageBitmap(bitmap)
@@ -69,7 +145,7 @@ class PublishFragment : Fragment() {
         }
     }
 
-    fun onGalleryResult(result: ActivityResult) {
+    private fun onGalleryResult(result: ActivityResult) {
         if (result.resultCode == RESULT_OK){
             val uriImage = result.data?.data
             uriImage?.let {

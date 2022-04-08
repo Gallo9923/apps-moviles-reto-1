@@ -1,12 +1,18 @@
-package com.example.instagram
+package com.example.instagram.fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.instagram.adapter.PostAdapter
 import com.example.instagram.databinding.FragmentHomeBinding
+import com.example.instagram.model.Post
+import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class HomeFragment : Fragment() {
 
@@ -31,9 +37,43 @@ class HomeFragment : Fragment() {
         binding.postRecycler.setHasFixedSize(true)
 
         adapater = PostAdapter()
+        adapater.setContext(requireContext()) // TODO: Check better way
+
         binding.postRecycler.adapter = adapater
 
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        readPost()
+    }
+
+    private fun readPost(){
+
+        val db = Firebase.firestore
+        db.collection("post")
+            .orderBy("date", Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener { documents ->
+
+                var posts = ArrayList<Post>()
+
+                for (document in documents) {
+                    Log.e(">>>", "${document.id} => ${document.data}")
+                    var post = document.toObject(Post::class.java)
+                    posts.add(post)
+                }
+
+                adapater.setPosts(posts)
+            }
+            .addOnFailureListener { exception ->
+                Log.w(">>>", "Error getting documents: ", exception)
+            }
+
+
+
     }
 
     override fun onDestroyView() {

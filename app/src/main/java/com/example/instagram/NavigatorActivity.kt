@@ -3,8 +3,10 @@ package com.example.instagram
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.example.instagram.databinding.ActivityMainBinding
 import com.example.instagram.databinding.ActivityNavigatorBinding
+import com.example.instagram.fragment.HomeFragment
+import com.example.instagram.fragment.ProfileFragment
+import com.example.instagram.fragment.PublishFragment
 
 
 class NavigatorActivity : AppCompatActivity() {
