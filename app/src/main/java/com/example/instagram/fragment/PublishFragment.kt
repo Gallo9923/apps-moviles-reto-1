@@ -5,6 +5,7 @@ import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.provider.MediaStore
@@ -12,6 +13,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.core.content.FileProvider
@@ -19,7 +22,6 @@ import androidx.fragment.app.Fragment
 import com.example.instagram.databinding.FragmentPublishBinding
 import com.example.instagram.model.CurrentUser
 import com.example.instagram.model.Post
-import com.example.instagram.model.User
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -69,6 +71,10 @@ class PublishFragment : Fragment() {
 
         }
 
+        val arr = arrayOf("Cali", "Medellín", "Bogotá")
+        val arrayAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_list_item_1, arr)
+        binding.locationSpinner.adapter = arrayAdapter
+
         return view
     }
 
@@ -115,11 +121,10 @@ class PublishFragment : Fragment() {
         val user = CurrentUser.user
         val username = user?.username!!
         val caption = binding.captionTxt.text.toString()
-        val location = binding.locationTxt.text.toString()
+        val location = binding.locationSpinner.selectedItem.toString()
         val post = Post(postId, username, date, url, caption, location)
 
         uploadPost(post)
-
     }
 
     private fun uploadPost(post: Post){
@@ -127,19 +132,38 @@ class PublishFragment : Fragment() {
             .collection("post")
             .document(post.postId!!)
             .set(post)
-            .addOnSuccessListener { Log.e(">>>", "DocumentSnapshot successfully written!") }
+            .addOnSuccessListener { successUploadPost() }
             .addOnFailureListener { e -> Log.e(">>>", "Error writing document", e) }
+    }
+
+    private fun successUploadPost(){
+        Log.e(">>>", "DocumentSnapshot successfully written!")
+        Toast.makeText(context, "Post Uploaded", Toast.LENGTH_SHORT).show()
     }
 
     private fun onCameraResult(result: ActivityResult){
         // Thumbnail
         //  val bitmap = result.data?.extras?.get("data") as Bitmap
         //  binding.image.setImageBitmap(bitmap)
+
+
+        ///
         if(result.resultCode == RESULT_OK){
             val bitmap = BitmapFactory.decodeFile(file?.path)
             // TODO: Set a better width and height
-            val thumbnail = Bitmap.createScaledBitmap(bitmap, bitmap.width/4, bitmap.height/4, true)
-            binding.image.setImageBitmap(thumbnail)
+            val aspectRatio = (bitmap.width.toFloat())/bitmap.height
+            val scaledBitmap = Bitmap.createScaledBitmap(
+                bitmap,
+                (aspectRatio*300).toInt(),
+                300,
+                true
+            )
+
+            //Log.e("Aspect Ratio", "height: ${bitmap.height} width: ${bitmap.width} aspect ratio:${aspectRatio}")
+//            val matrix = Matrix()
+//            matrix.postRotate(90f)
+
+            binding.image.setImageBitmap(bitmap)
         }else if (result.resultCode == RESULT_CANCELED){
 
         }

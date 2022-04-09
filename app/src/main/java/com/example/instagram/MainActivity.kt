@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         val json = sharedPref.getString(CURRENT_USER_STR, "NO_DATA")
         if (json != "NO_DATA"){
             var user = Gson().fromJson(json, User::class.java)
-            CurrentUser.user = user
+            CurrentUser.logIn(user)
 
             val intent = Intent(this, NavigatorActivity::class.java);
             startActivity(intent);
@@ -104,6 +104,7 @@ class MainActivity : AppCompatActivity() {
         val sharedPref = getPreferences(MODE_PRIVATE)
         sharedPref.edit().putString(CURRENT_USER_STR, json).apply()
 
+        CurrentUser.logIn(user)
     }
 
     override fun onRequestPermissionsResult(

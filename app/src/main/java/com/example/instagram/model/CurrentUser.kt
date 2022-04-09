@@ -8,4 +8,8 @@ object CurrentUser {
         user = null
     }
 
+    fun logIn(user: User){
+        this.user = user
+    }
+
 }

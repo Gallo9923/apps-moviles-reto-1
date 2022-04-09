@@ -5,6 +5,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.instagram.R
+import org.w3c.dom.Text
 
 class PostView(itemView: View) : RecyclerView.ViewHolder(itemView) {
     var profileImage: ImageView = itemView.findViewById(R.id.profileImage)
@@ -12,4 +13,5 @@ class PostView(itemView: View) : RecyclerView.ViewHolder(itemView) {
     var location: TextView = itemView.findViewById(R.id.location)
     var postImage: ImageView = itemView.findViewById(R.id.postImage)
     var caption: TextView = itemView.findViewById(R.id.caption)
+    var date: TextView = itemView.findViewById(R.id.date)
 }

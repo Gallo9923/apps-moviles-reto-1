@@ -7,7 +7,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.instagram.GlideApp
 import com.example.instagram.R
 import com.example.instagram.model.Post
+import com.example.instagram.model.User
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import java.text.Format
+import java.text.SimpleDateFormat
 import kotlin.collections.ArrayList
 
 class PostAdapter : RecyclerView.Adapter<PostView>(){
@@ -45,14 +50,30 @@ class PostAdapter : RecyclerView.Adapter<PostView>(){
         holder.caption.text = post.caption
         holder.location.text = post.location
 
-        // WORKING CODE!
+        val format = SimpleDateFormat("yyyy:MM:d 'at' HH:mm")
+        val dateString = format.format(post.date)
+        holder.date.text = dateString
+
         val storage = FirebaseStorage.getInstance()
-        // Create a reference to a file from a Google Cloud Storage URI
-        val gsReference = storage.getReferenceFromUrl("gs://apps-moviles-reto1.appspot.com/${post.url}")
+        val gsPostReference = storage.getReferenceFromUrl("gs://apps-moviles-reto1.appspot.com/${post.url}")
 
         GlideApp.with(this.context)
-            .load(gsReference)
+            .load(gsPostReference)
             .into(holder.postImage)
+
+
+        val query = Firebase.firestore.collection("users").whereEqualTo("username", post.username)
+        query.get().addOnCompleteListener { task ->
+            for (document in task.result) {
+                var user = document.toObject(User::class.java)
+                val gsProfileReference =
+                    storage.getReferenceFromUrl("gs://apps-moviles-reto1.appspot.com/${user.profilePhotoURL}")
+                GlideApp.with(this.context)
+                    .load(gsProfileReference)
+                    .into(holder.profileImage)
+            }
+        }
+
     }
 
     override fun getItemCount(): Int {
