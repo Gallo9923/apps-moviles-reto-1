@@ -45,7 +45,6 @@ class ProfileFragment : Fragment() {
         }
 
         binding.publishBtn.setOnClickListener {
-            // TODO: Make user update method in SharedPref with persistence
             val username = binding.name.text.toString()
             val profilePath = this.file?.path
             val user = User("", username, "", "", profilePath)
@@ -65,8 +64,6 @@ class ProfileFragment : Fragment() {
                 this.file = File(url)
             }
 
-            //this.file = File("${context?.getExternalFilesDir(null)}/profilePhoto.png")
-            // Log.e(">>> P", file?.path.toString())
             val uri = FileProvider.getUriForFile(requireContext(), requireContext().packageName, this.file!!)
             intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
             cameraLauncher.launch(intent)
@@ -85,7 +82,6 @@ class ProfileFragment : Fragment() {
     private fun onCameraResult(result: ActivityResult){
         if(result.resultCode == Activity.RESULT_OK){
             val bitmap = BitmapFactory.decodeFile(file?.path)
-            // TODO: Set a better width and height
             val aspectRatio = (bitmap.width.toFloat())/bitmap.height
             val scaledBitmap = Bitmap.createScaledBitmap(
                 bitmap,

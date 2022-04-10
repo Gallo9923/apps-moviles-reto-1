@@ -52,7 +52,6 @@ class PublishFragment(private val parentActivity: NavigatorActivity) : Fragment(
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             val filename = UUID.randomUUID().toString()
             this.file = File("${context?.getExternalFilesDir(null)}/${filename}.png")
-            // Log.e(">>>", file?.path.toString())
             val uri = FileProvider.getUriForFile(requireContext(), requireContext().packageName, file!!)
             intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
             cameraLauncher.launch(intent)
@@ -90,7 +89,6 @@ class PublishFragment(private val parentActivity: NavigatorActivity) : Fragment(
     private fun onCameraResult(result: ActivityResult){
         if(result.resultCode == RESULT_OK){
             val bitmap = BitmapFactory.decodeFile(file?.path)
-            // TODO: Set a better width and height
             val aspectRatio = (bitmap.width.toFloat())/bitmap.height
             val scaledBitmap = Bitmap.createScaledBitmap(
                 bitmap,
@@ -99,7 +97,6 @@ class PublishFragment(private val parentActivity: NavigatorActivity) : Fragment(
                 true
             )
 
-            //Log.e("Aspect Ratio", "height: ${bitmap.height} width: ${bitmap.width} aspect ratio:${aspectRatio}")
 //            val matrix = Matrix()
 //            matrix.postRotate(90f)
 
@@ -123,9 +120,6 @@ class PublishFragment(private val parentActivity: NavigatorActivity) : Fragment(
             this.file = File("${context?.getExternalFilesDir(null)}/${filename}.png")
 
             copy(File(originPath), this.file)
-
-//            Log.e(">>>", "Gallery: ${uriImage.path}")
-//            Log.e(">>>", "Gallery: ${this.file!!.path}")
 
         }else if (result.resultCode == RESULT_CANCELED){
 

@@ -145,9 +145,6 @@ object  SharedPref {
 
         val currentUserjson = Gson().toJson(this.currentUser)
         this.sharedPref?.edit()?.putString(this.CURRENT_USER, currentUserjson )?.apply()
-
-        Log.e(">>>", "")
-
     }
 
 }
