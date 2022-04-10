@@ -108,7 +108,6 @@ class PublishFragment(private val parentActivity: NavigatorActivity) : Fragment(
 
     private fun onGalleryResult(result: ActivityResult) {
         if (result.resultCode == RESULT_OK){
-            // TODO: URI to Bitmap and then resize image
             val uriImage = result.data?.data
             uriImage?.let {
                 val bitmap :  Bitmap  = MediaStore.Images.Media.getBitmap(context?.contentResolver, uriImage)

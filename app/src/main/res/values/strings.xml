@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">instagram</string>
+    <string name="app_name">Instagram</string>
     <string name="login_username">Username</string>
     <string name="login_password">Password</string>
     <string name="login_button">Log in</string>
