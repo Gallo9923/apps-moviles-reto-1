@@ -1,7 +1,9 @@
 package com.example.instagram.adapter
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -47,7 +49,7 @@ class PostAdapter : RecyclerView.Adapter<PostView>(){
         holder.caption.text = post.caption
         holder.location.text = post.location
 
-        val format = SimpleDateFormat("yyyy:MM:d 'at' HH:mm")
+        val format = SimpleDateFormat("d-MM-yy 'at' HH:mm")
         val dateString = format.format(post.date)
         holder.date.text = dateString
 
@@ -65,7 +67,8 @@ class PostAdapter : RecyclerView.Adapter<PostView>(){
             val url = user.profilePhotoURL
             if (!url.equals("")){
                 val bitmap = BitmapFactory.decodeFile(url)
-                holder.profileImage.setImageBitmap(bitmap)
+                holder.profileImage.foreground = BitmapDrawable(Resources.getSystem(), bitmap);
+                //holder.profileImage.setImageBitmap(bitmap)
             }
         }
     }

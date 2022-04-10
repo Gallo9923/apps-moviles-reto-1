@@ -28,7 +28,7 @@
                 style="@style/Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="24dp"
                 android:text="@string/new_post"
                 app:layout_constraintBottom_toBottomOf="@+id/publishBtn"
                 app:layout_constraintStart_toStartOf="parent"
@@ -110,6 +110,7 @@
 
             <EditText
                 android:id="@+id/captionTxt"
+                style="@style/Text"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"

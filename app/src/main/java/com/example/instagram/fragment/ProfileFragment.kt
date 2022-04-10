@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -89,13 +90,12 @@ class ProfileFragment : Fragment() {
                 300,
                 true
             )
-           binding.profilePhoto.setImageBitmap(scaledBitmap)
+            binding.cardView.foreground = BitmapDrawable(resources, scaledBitmap);
+            //binding.profilePhoto.setImageBitmap(scaledBitmap)
         }else if (result.resultCode == Activity.RESULT_CANCELED){
 
         }
     }
-
-
 
     private fun populateFields(){
 
@@ -106,7 +106,8 @@ class ProfileFragment : Fragment() {
 
             if (!user.profilePhotoURL.equals("")){
                 val bitmap = BitmapFactory.decodeFile(user.profilePhotoURL)
-                binding.profilePhoto.setImageBitmap(bitmap)
+                binding.cardView.foreground = BitmapDrawable(resources, bitmap);
+                //binding.profilePhoto.setImageBitmap(bitmap)
             }else{
                 // TODO: Place default image
             }
