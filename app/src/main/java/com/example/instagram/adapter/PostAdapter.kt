@@ -2,6 +2,7 @@ package com.example.instagram.adapter
 
 import android.content.Context
 import android.content.res.Resources
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.view.LayoutInflater
@@ -16,7 +17,6 @@ import kotlin.collections.ArrayList
 
 class PostAdapter : RecyclerView.Adapter<PostView>(){
 
-    //private var post = ArrayList<Post>()
     private var post = SharedPref.posts
     private lateinit var context: Context
 
@@ -56,7 +56,14 @@ class PostAdapter : RecyclerView.Adapter<PostView>(){
         val file = File(post.url)
 
         val bitmap = BitmapFactory.decodeFile(file?.path)
-        holder.postImage.setImageBitmap(bitmap)
+        val aspectRatio = (bitmap.width.toFloat())/bitmap.height
+        val scaledBitmap = Bitmap.createScaledBitmap(
+            bitmap,
+            (aspectRatio*300).toInt(),
+            300,
+            true
+        )
+        holder.postImage.setImageBitmap(scaledBitmap)
 
         val user = SharedPref.findUserById(post.userId!!)
         if (user != null){
@@ -67,8 +74,14 @@ class PostAdapter : RecyclerView.Adapter<PostView>(){
             val url = user.profilePhotoURL
             if (!url.equals("")){
                 val bitmap = BitmapFactory.decodeFile(url)
-                holder.profileImage.foreground = BitmapDrawable(Resources.getSystem(), bitmap);
-                //holder.profileImage.setImageBitmap(bitmap)
+                val aspectRatio = (bitmap.width.toFloat())/bitmap.height
+                val scaledBitmap = Bitmap.createScaledBitmap(
+                    bitmap,
+                    (aspectRatio*300).toInt(),
+                    300,
+                    true
+                )
+                holder.profileImage.foreground = BitmapDrawable(Resources.getSystem(), scaledBitmap);
             }
         }
     }

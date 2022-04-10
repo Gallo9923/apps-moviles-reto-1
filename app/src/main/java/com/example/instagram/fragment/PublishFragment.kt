@@ -111,7 +111,15 @@ class PublishFragment(private val parentActivity: NavigatorActivity) : Fragment(
             // TODO: URI to Bitmap and then resize image
             val uriImage = result.data?.data
             uriImage?.let {
-                 binding.image.setImageURI(uriImage)
+                val bitmap :  Bitmap  = MediaStore.Images.Media.getBitmap(context?.contentResolver, uriImage)
+                val aspectRatio = (bitmap.width.toFloat())/bitmap.height
+                val scaledBitmap = Bitmap.createScaledBitmap(
+                    bitmap,
+                    (aspectRatio*300).toInt(),
+                    300,
+                    true
+                )
+                binding.image.setImageBitmap(scaledBitmap)
             }
             val originPath = UtilDomi.getPath(requireContext(), uriImage!!)
 
