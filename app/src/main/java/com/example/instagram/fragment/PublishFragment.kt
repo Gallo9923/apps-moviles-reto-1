@@ -15,8 +15,10 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import com.example.instagram.NavigatorActivity
 import com.example.instagram.UtilDomi
 import com.example.instagram.databinding.FragmentPublishBinding
 import com.example.instagram.model.Post
@@ -28,7 +30,7 @@ import java.io.IOException
 import java.util.*
 
 
-class PublishFragment : Fragment() {
+class PublishFragment(private val parentActivity: NavigatorActivity) : Fragment() {
 
     private var _binding: FragmentPublishBinding? = null
     private val binding get() = _binding!!
@@ -64,6 +66,8 @@ class PublishFragment : Fragment() {
 
         binding.publishBtn.setOnClickListener {
             createPost()
+            binding.captionTxt.setText("")
+            this.parentActivity.showHomeFragment()
             Toast.makeText(context, "Photo published", Toast.LENGTH_SHORT).show()
         }
 
@@ -149,6 +153,6 @@ class PublishFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = PublishFragment()
+        fun newInstance(parentActivity: NavigatorActivity) = PublishFragment(parentActivity)
     }
 }

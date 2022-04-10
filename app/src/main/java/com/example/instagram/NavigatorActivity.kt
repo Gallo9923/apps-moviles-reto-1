@@ -17,6 +17,7 @@ class NavigatorActivity : AppCompatActivity() {
     private lateinit var publishFragment: PublishFragment
     private lateinit var profileFragment: ProfileFragment
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNavigatorBinding.inflate(layoutInflater)
@@ -24,7 +25,7 @@ class NavigatorActivity : AppCompatActivity() {
         setContentView(view)
 
         homeFragment = HomeFragment.newInstance()
-        publishFragment = PublishFragment.newInstance()
+        publishFragment = PublishFragment.newInstance(this)
         profileFragment = ProfileFragment.newInstance()
 
         showFragment(homeFragment)
@@ -44,6 +45,10 @@ class NavigatorActivity : AppCompatActivity() {
             true
         }
 
+    }
+
+    fun showHomeFragment(){
+        showFragment(homeFragment)
     }
 
     fun showFragment(fragment: Fragment){
