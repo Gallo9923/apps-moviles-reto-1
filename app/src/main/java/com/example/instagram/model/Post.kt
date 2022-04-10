@@ -8,7 +8,8 @@ data class Post (
     var date: Date? = null,
     var url: String? = "",
     var caption: String? = "",
-    var location: String? = ""
+    var location: String? = "",
+    var userId: String? = ""
     )
 
 

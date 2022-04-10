@@ -47,34 +47,34 @@ class HomeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        readPost()
+        // readPost()
     }
 
-    private fun readPost(){
-
-        val db = Firebase.firestore
-        db.collection("post")
-            .orderBy("date", Query.Direction.DESCENDING)
-            .get()
-            .addOnSuccessListener { documents ->
-
-                var posts = ArrayList<Post>()
-
-                for (document in documents) {
-                    Log.e(">>>", "${document.id} => ${document.data}")
-                    var post = document.toObject(Post::class.java)
-                    posts.add(post)
-                }
-
-                adapater.setPosts(posts)
-            }
-            .addOnFailureListener { exception ->
-                Log.w(">>>", "Error getting documents: ", exception)
-            }
-
-
-
-    }
+//    private fun readPost(){
+//
+//        val db = Firebase.firestore
+//        db.collection("post")
+//            .orderBy("date", Query.Direction.DESCENDING)
+//            .get()
+//            .addOnSuccessListener { documents ->
+//
+//                var posts = ArrayList<Post>()
+//
+//                for (document in documents) {
+//                    Log.e(">>>", "${document.id} => ${document.data}")
+//                    var post = document.toObject(Post::class.java)
+//                    posts.add(post)
+//                }
+//
+//                adapater.setPosts(posts)
+//            }
+//            .addOnFailureListener { exception ->
+//                Log.w(">>>", "Error getting documents: ", exception)
+//            }
+//
+//
+//
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()
