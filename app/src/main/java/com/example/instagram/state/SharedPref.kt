@@ -42,9 +42,11 @@ object  SharedPref {
 
     fun loadPreviousUser(){
         val json = sharedPref?.getString(this.CURRENT_USER, "NO_DATA")
-        if(json != "NO_DATA"){
+        if(json != null && json != "NO_DATA" && json != "null"){
             val currentUser: User = Gson().fromJson(json, User::class.java)
             this.currentUser = currentUser
+        }else{
+            this.currentUser = null
         }
     }
 
@@ -125,6 +127,7 @@ object  SharedPref {
 
     fun updateProfile(user: User){
 
+        // Update in memory
         this.currentUser?.profilePhotoURL = user.profilePhotoURL
         this.currentUser?.username = user.username
 
@@ -132,16 +135,18 @@ object  SharedPref {
             if (currUser.id == currentUser?.id){
                 currUser.username == user.username
                 currUser.profilePhotoURL == user.profilePhotoURL
-                Log.e(">>>", this.users.toString())
                 break
             }
         }
 
+        //Save with persistence
         val usersJson =Gson().toJson(this.users)
         this.sharedPref?.edit()?.putString(this.USERS, usersJson)?.apply()
 
         val currentUserjson = Gson().toJson(this.currentUser)
         this.sharedPref?.edit()?.putString(this.CURRENT_USER, currentUserjson )?.apply()
+
+        Log.e(">>>", "")
 
     }
 

@@ -44,7 +44,6 @@ class PostAdapter : RecyclerView.Adapter<PostView>(){
     override fun onBindViewHolder(holder: PostView, position: Int) {
 
         val post = post[position]
-        holder.username.text = post.username
         holder.caption.text = post.caption
         holder.location.text = post.location
 
@@ -59,7 +58,10 @@ class PostAdapter : RecyclerView.Adapter<PostView>(){
 
         val user = SharedPref.findUserById(post.userId!!)
         if (user != null){
+            // Username
+            holder.username.text = user.username
 
+            // Profile Picture
             val url = user.profilePhotoURL
             if (!url.equals("")){
                 val bitmap = BitmapFactory.decodeFile(url)

@@ -77,11 +77,9 @@ class PublishFragment : Fragment() {
     private fun createPost(){
         val postId = UUID.randomUUID().toString()
         val user = SharedPref.currentUser
-        val username = user?.username!!
         val caption = binding.captionTxt.text.toString()
         val location = binding.locationSpinner.selectedItem.toString()
-        val post = Post(postId, username, Date(), this.file!!.path, caption, location, user.id)
-        // Log.e("PublishFragment", "${this.file?.path}")
+        val post = Post(postId, Date(), this.file!!.path, caption, location, user?.id)
         SharedPref.addPost(post)
     }
 
