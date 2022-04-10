@@ -1,7 +1,7 @@
 package com.example.instagram.state
 
 import android.content.SharedPreferences
-import android.graphics.Bitmap
+import android.util.Log
 import com.example.instagram.model.Post
 import com.example.instagram.model.User
 import com.google.gson.Gson
@@ -49,6 +49,19 @@ object  SharedPref {
     }
 
     // Users Logic
+
+    fun findUserById(id: String): User? {
+        var userToFound: User? = null
+
+        for(user: User in users){
+            if (user.id.equals(id)){
+                userToFound = user
+                break
+            }
+        }
+
+        return userToFound
+    }
 
     fun findUserByUsername(username: String): User? {
 
@@ -100,7 +113,8 @@ object  SharedPref {
 
     fun addPost(post: Post){
         this.posts.add(post)
-        this.posts.sortBy { it.date }
+        this.posts.sortByDescending { it.date }
+
 
         val json = Gson().toJson(this.posts)
         this.sharedPref?.edit()?.putString(this.POSTS, json)?.apply()
@@ -109,9 +123,25 @@ object  SharedPref {
 
     // Photo Logic
 
-    fun saveImage(bitmap: Bitmap){
+    fun updateProfile(user: User){
 
+        this.currentUser?.profilePhotoURL = user.profilePhotoURL
+        this.currentUser?.username = user.username
 
+        for(currUser: User in users){
+            if (currUser.id == currentUser?.id){
+                currUser.username == user.username
+                currUser.profilePhotoURL == user.profilePhotoURL
+                Log.e(">>>", this.users.toString())
+                break
+            }
+        }
+
+        val usersJson =Gson().toJson(this.users)
+        this.sharedPref?.edit()?.putString(this.USERS, usersJson)?.apply()
+
+        val currentUserjson = Gson().toJson(this.currentUser)
+        this.sharedPref?.edit()?.putString(this.CURRENT_USER, currentUserjson )?.apply()
 
     }
 

@@ -80,7 +80,7 @@ class PublishFragment : Fragment() {
         val username = user?.username!!
         val caption = binding.captionTxt.text.toString()
         val location = binding.locationSpinner.selectedItem.toString()
-        val post = Post(postId, username, Date(), this.file!!.path, caption, location)
+        val post = Post(postId, username, Date(), this.file!!.path, caption, location, user.id)
         // Log.e("PublishFragment", "${this.file?.path}")
         SharedPref.addPost(post)
     }

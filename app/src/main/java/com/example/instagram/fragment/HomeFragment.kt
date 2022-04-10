@@ -46,8 +46,7 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-
-        // readPost()
+        //adapater.notifyDataSetChanged()
     }
 
 //    private fun readPost(){
